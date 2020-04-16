@@ -15,6 +15,7 @@ usersRouter.post('/', async (request, response) => {
       password,
     });
 
+    // Not return password information
     delete user.password;
 
     return response.json(user);
