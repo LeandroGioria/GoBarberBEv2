@@ -1,3 +1,5 @@
+import 'reflect-metadata'; // Dependencie to database, to use decorators
+
 import express from 'express';
 import routes from './routes';
 
