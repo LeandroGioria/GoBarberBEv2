@@ -1,15 +1,36 @@
 import 'reflect-metadata'; // Dependency from typeorm to use decorators
 
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
+import 'express-async-errors'; // always after EXPRESS import
+
 import routes from './routes';
 import uploadConfig from './config/upload';
 
 import './database';
+import AppError from './erros/AppError';
 
 const app = express();
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.directory));
 app.use(routes);
+
+// Middleware for error
+// P.s always implement after routes because we receive the error from them
+app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
+  // Error from app
+  if (err instanceof AppError) {
+    return response.status(err.statusCode).json({
+      status: 'error',
+      message: err.message,
+    });
+  }
+
+  // Not expected error
+  return response.status(500).json({
+    status: 'error',
+    message: 'Internal server error',
+  });
+});
 
 app.listen(3333, () => {
   // eslint-disable-next-line no-console
