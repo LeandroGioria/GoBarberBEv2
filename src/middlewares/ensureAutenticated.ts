@@ -22,6 +22,7 @@ export default function ensureAuthenticated(
   }
 
   // Bearer adsuhuhdasuhasd
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [type, token] = authHeader.split(' ');
 
   try {
@@ -36,5 +37,4 @@ export default function ensureAuthenticated(
   } catch {
     throw Error('Invalid JWT token');
   }
-  next();
 }
