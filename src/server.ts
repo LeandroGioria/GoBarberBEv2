@@ -1,6 +1,7 @@
 import 'reflect-metadata'; // Dependency from typeorm to use decorators
 
 import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
 import 'express-async-errors'; // always after EXPRESS import
 
 import routes from './routes';
@@ -10,6 +11,7 @@ import './database';
 import AppError from './erros/AppError';
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.directory));
 app.use(routes);
